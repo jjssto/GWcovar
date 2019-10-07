@@ -1,6 +1,8 @@
 # script to test wether the calculation of the MLE using 'mle.nomean()'
 # from the package 'spam' works.
 
+set.seed(43)
+
 require(spam)
 require(foreach)
 require(mvtnorm)
@@ -16,16 +18,12 @@ loc<-expand.grid(x,x)
 
 
 
-########################################################################
-# TEST 1: DOES 'mle.nomean()' produce errors?
-########################################################################
-
 ###########################
 # spam matrices
 ###########################
 dist.mat <- nearest.dist(loc, delta=bet*2, upper=NULL)
 
-result1.0 <- foreach( kap=seq(0,5,by=0.25), .combine='cbind' ) %do% {
+result1.2 <- foreach( kap=seq(0,5,by=0.25), .combine='cbind' ) %do% {
 
 	foreach( mu=seq(4.5,7.5,by=0.5 ), .combine='c' ) %do% {
 
@@ -42,7 +40,7 @@ result1.0 <- foreach( kap=seq(0,5,by=0.25), .combine='cbind' ) %do% {
 					   15,
 					   15)
 
-			covar = cov.wend( 
+			covar = cov.wend.interpol( 
 							  dist.mat,
 							  pars
 			)
@@ -53,7 +51,7 @@ result1.0 <- foreach( kap=seq(0,5,by=0.25), .combine='cbind' ) %do% {
 			ret <- mle.nomean(
 							  t(y),
 							  dist.mat,
-							  cov.wend,
+							  cov.wend.interpol,
 							  pars, 
 							  low,
 							  up
@@ -66,23 +64,22 @@ result1.0 <- foreach( kap=seq(0,5,by=0.25), .combine='cbind' ) %do% {
 }
 
 sprintf("[spam matrices 0] In %d of %d %s",
-		sum( result1.0 == -1 ),
-		length( result1.0 ),
+		sum( result1.2 == -1 ),
+		length( result1.2 ),
 		"cases mle.nomean() produced an error"
 ) 
 sprintf("[spam matrices 1] In %d of %d %s",
-		sum( result1.0 == 0 ),
-		length( result1.0 ),
+		sum( result1.2 == 0 ),
+		length( result1.2 ),
 		"cases mle.nomean() did converge"
 )
-
 ###########################
 # dense matrices
 ###########################
 
 dist.mat <- as.matrix(dist(loc, upper=NULL))
 
-result1.1 <- foreach( kap=seq(0,5,by=0.25), .combine='cbind' ) %do% {
+result1.3 <- foreach( kap=seq(0,5,by=0.25), .combine='cbind' ) %do% {
 
 	foreach( mu=seq(4.5,7.5,by=0.5 ), .combine='c' ) %do% {
 
@@ -99,7 +96,7 @@ result1.1 <- foreach( kap=seq(0,5,by=0.25), .combine='cbind' ) %do% {
 					   15,
 					   15)
 
-			covar = cov.wend( 
+			covar = cov.wend.interpol( 
 							  dist.mat,
 							  pars
 			)
@@ -110,7 +107,7 @@ result1.1 <- foreach( kap=seq(0,5,by=0.25), .combine='cbind' ) %do% {
 			ret <- mle.nomean(
 							  t(y),
 							  dist.mat,
-							  cov.wend,
+							  cov.wend.interpol,
 							  pars, 
 							  low,
 							  up
@@ -122,38 +119,40 @@ result1.1 <- foreach( kap=seq(0,5,by=0.25), .combine='cbind' ) %do% {
 	}
 }
 
-sprintf("[spam matrices 0] In %d of %d %s",
-		sum( result1.1 == -1 ),
-		length( result1.1 ),
+sprintf("[dense matrices 0] In %d of %d %s",
+		sum( result1.3 == -1 ),
+		length( result1.3 ),
 		"cases mle.nomean() produced an error"
 )
 sprintf("[dense matrices 1] In %d of %d %s",
-		sum( result1.1 == 0 ),
-		length( result1.1 ),
+		sum( result1.3 == 0 ),
+		length( result1.3 ),
 		"cases mle.nomean() did converge"
 )
 
 
-if ( sum( result1.0 != 0 ) > 0 || sum( result1.1 != 0 ) > 0 ) { 
+tol2 <- 0.02*length(result1.2)
+tol3 <- 0.02*length(result1.3)
+if ( sum( result1.2 != 0 ) > tol2 || sum( result1.3 != 0 ) > tol3 ) { 
 	string1 = "cases mle.nomean() exited with an error"
 	string2 = "cases mle.nomean() did not converge (including errors)"
 	error_message = sprintf( 
-							rep("\nIn %s %d of %d %s",4) ,
+							rep("\n%s In %d of %d %s",4) ,
 							"[spam matrices 0] ",
-							sum( result1.0 == -1 ),
-							length( result1.0),
+							sum( result1.2 == -1 ),
+							length( result1.2),
 							string1,
 							"[spam matrices 1] ",
-							sum( result1.0 != 0 ),
-							length( result1.0 ),
+							sum( result1.2 != 0 ),
+							length( result1.2 ),
 							string2,
 							"[dense matrices 0] ",
-							sum( result1.1 == -1 ),
-							length( result1.1),
+							sum( result1.3 == -1 ),
+							length( result1.3),
 							string1,
 							"[dense matrices 1] ",
-							sum( result1.1 != 0 ),
-							length( result1.1 ),
+							sum( result1.3 != 0 ),
+							length( result1.3 ),
 							string2
 	)
 	stop( error_message )

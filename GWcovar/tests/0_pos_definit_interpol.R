@@ -1,5 +1,7 @@
 # Tests if the calculated covariance matrices are positiv definite
 
+set.seed(43)
+
 require('spam')
 require('foreach')
 require('GWcovar')

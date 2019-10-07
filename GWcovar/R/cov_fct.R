@@ -1,6 +1,8 @@
+## This file is part of the R-package 'GWcovar'
+##
 ## Copyright (C) 2019 Josef Stocker <josef@josefstocker.ch>
 ## 
-## This program is free software: you can redistribute it and/or modify
+## 'GWcovar' is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
 ## the Free Software Foundation, either version 3 of the License, or (at
 ## your option) any later version.
@@ -15,9 +17,34 @@
 ##
 ########################################################################
 
+#' GWcovar provides functions to calculate the Generalized Wendland
+#' covariance matrix
+#'
+#' The package GWcovar provides the two functions
+#' \code{\link{cov.wend()}} and \code{\link{cov.wend.interpol()}}
+#'
+#' @docType package
+#' @name GWcovar
+NULL
+
 dyn.load('src/covar.so')
 
 
+#' Calculates the Generalized Wendland covariance matrix.
+#'
+#' The function 'cov.wend()' calculates the Generalized Wendland (GW)
+#' covariance matrix based on a distance matrix. 
+#'
+#' @return If the distance matrix is in standard R format a standard R matrix is
+#' returned. If the distance matrix is of class 'spam' the returned matrix is
+#' also of class 'spam'.
+#' @seealso [spam]
+#' @export
+#' @examples
+#' x <- seq(0,1,len=10) 
+#' loc <- expand.grid(x,x) 
+#' dist.mat <- spam::nearest.dist(loc,upper=NULL,delta=0.5)
+#' cov.wend( dist.mat, c(0.3,6,1.5,1,0))
 cov.wend <- function( 
                       h, 
                       theta, 
@@ -90,6 +117,24 @@ cov.wend <- function(
     }
 }
 
+
+#' Calculates the Generalized Wendland covariance matrix.
+#'
+#' The function 'cov.wend.interpol()' calculates the Generalized
+#' Wendland (GW) covariance matrix based on a distance matrix. In
+#' contrast to 'cov.wend()' this function uses interpolation in order to
+#' increase calculation speed.
+#'
+#' @return If the distance matrix is in standard R format a standard R matrix is
+#' returned. If the distance matrix is of class 'spam' the returned matrix is
+#' also of class 'spam'.
+#' @seealso [spam]
+#' @export
+#' @examples
+#' x <- seq(0,1,len=10) 
+#' loc <- expand.grid(x,x) 
+#' dist.mat <- spam::nearest.dist(loc,upper=NULL,delta=0.5) 
+#' cov.wend.interpol( dist.mat, c(0.3,6,1.5,1,0))
 cov.wend.interpol <- function( 
                       h, 
                       theta, 
