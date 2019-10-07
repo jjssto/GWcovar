@@ -1,0 +1,10 @@
+Package: GWcovar
+Type: Package
+Title: Calculate the Generalized Wendland covariance function
+Version: 0.5
+Date: 2019-10-06
+Author: Josef Stocker
+Maintainer: Josef Stocker <josef@josefstocker.ch>
+Imports: spam
+Description: More about what it does (maybe more than one line)
+License: GPL (>=2) 

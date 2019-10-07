@@ -1,0 +1,5 @@
+export( "cov.wend", "cov.wend.interpol" )
+
+importFrom(spam,is.spam)
+
+useDynLib("covar")
