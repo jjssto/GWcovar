@@ -41,3 +41,6 @@ loc <- expand.grid(x,x)
 dist.mat <- spam::nearest.dist(loc,upper=NULL,delta=0.5)
 cov.wend( dist.mat, c(0.3,6,1.5,1,0))
 }
+\seealso{
+\linkS4class{spam}
+}

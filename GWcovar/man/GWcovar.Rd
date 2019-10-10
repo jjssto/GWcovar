@@ -4,11 +4,12 @@
 \name{GWcovar}
 \alias{GWcovar}
 \alias{GWcovar-package}
-\title{This package provides functions to calculate the Generalized Wendland
-covariance matrix}
+\title{Calculation of the Generalized Wendland Covariance Matri}
 \description{
-The package rovides the two functions
-\code{\link{cov.wend}} and \code{\link{cov.wend.interpol}}.
+Two functions to calculate the GW covariance matrix. For the distance
+matrix eigher sparse matrices from the package \linkS4class{spam} or
+standard R matrices can be used.  The package provides the two
+functions \code{\link{cov.wend}} and \code{\link{cov.wend.interpol}}.
 }
 \references{
 \url{https://arxiv.org/abs/1607.06921}

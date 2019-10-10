@@ -3,4 +3,4 @@
 export(cov.wend)
 export(cov.wend.interpol)
 import(spam)
-useDynLib(covar, .registration = TRUE, .fixes="C_")
+useDynLib(covar, .registration = TRUE)

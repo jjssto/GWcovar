@@ -17,11 +17,12 @@
 ##
 ########################################################################
 
-#' This package provides functions to calculate the Generalized Wendland
-#' covariance matrix
+#' Calculation of the Generalized Wendland Covariance Matri
 #'
-#' The package rovides the two functions
-#' \code{\link{cov.wend}} and \code{\link{cov.wend.interpol}}.
+#' Two functions to calculate the GW covariance matrix. For the distance
+#' matrix eigher sparse matrices from the package \linkS4class{spam} or
+#' standard R matrices can be used.  The package provides the two
+#' functions \code{\link{cov.wend}} and \code{\link{cov.wend.interpol}}.
 #' 
 #' @author Josef Stocker, \email{josef@@josefstocker.ch}
 #' @seealso \pkg{spam}
@@ -58,7 +59,7 @@ dyn.load('src/covar.so')
 #' @param eps treshhold below which values are considered to be equal to
 #' 0
 #'
-#' @seealso \linkS4class{spam}}
+#' @seealso \linkS4class{spam}
 #' @export
 #' @examples
 #' x <- seq(0,1,len=10) 
