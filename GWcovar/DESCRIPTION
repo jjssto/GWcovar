@@ -8,7 +8,7 @@ Maintainer: Josef Stocker <josef@josefstocker.ch>
 Description: Two functions to calculate the GW covariance 
     matrix. For the distance matrix eigher sparse matrices from the package 
     'spam' or standard R matrices can be used.
-License: GPL-3
+License: GPL-3 + file LICENSE
 Imports: spam
 Suggests: mvtnorm
 RoxygenNote: 6.1.1
