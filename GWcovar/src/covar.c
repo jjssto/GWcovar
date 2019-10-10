@@ -15,6 +15,10 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <https://www.gnu.org/licenses/>.
  * */
+
+/* **************************
+ * ** INCLUDES **************
+ * *************************/
 #include "covar.h"
 
 #include "stdio.h"
@@ -28,6 +32,41 @@
 
 #include "wendland.h"
 
+/* ***********************************
+ * ** PRIVATE DATA STRUCTURES ********
+ * **********************************/
+
+static const R_CallMethodDef callMethods[] = {
+   {"covar_m_dist", (DL_FUNC) &covar_m_dist, 8},
+   {"covar_interpol", (DL_FUNC) &covar_interpol, 9},
+   {"covar_vector_dir", (DL_FUNC) &covar_vector_dir, 10},
+   {"covar_vector_interpol", (DL_FUNC) &covar_vector_interpol, 11},
+   {NULL, NULL, 0}
+};
+
+
+/* ***********************************
+ * ** PUBLIC FUNCTIONS  **************
+ * **********************************/
+
+void 
+R_init_covar( 
+        DllInfo *info 
+        ) 
+
+{
+    R_registerRoutines(
+            info,
+            NULL,
+            callMethods,
+            NULL,
+            NULL
+            ) ;
+    R_useDynamicSymbols( info, 0 ) ;
+    R_forceSymbols( info, 1 ) ;
+}
+
+    
 
 SEXP 
 covar_m_dist (  
@@ -324,12 +363,12 @@ SEXP covar_vector_dir (
                              * considered 0 */
        )
 /* ****************************************************************************
-* The function 'int covar_vector_dir  (...)' calculates the Generalized Wendland
-* (GW) covariance matrix by modifying the R vector 'DIST'. The function
-* returns 0 if the calculation finished without erros.  Depending on the
-* parameters used the integral is calculated with the non-adaptive
-* Gauss-Kronrod algorithm using the 'GNU Scientific Library'. 
-* **************************************************************************/
+ * The function 'int covar_vector_dir  (...)' calculates the Generalized
+ * Wendland (GW) covariance function for all values of the R  vector 'DIST'.
+ * If an error occures, the NULL pointer is returned.  The integral is
+ * calculated with the non-adaptive Gauss-Kronrod algorithm from the 'GNU
+ * Scientific Library'. 
+ * **************************************************************************/
 {
     /* local representation for the SEXPs */
     double* p_dist = REAL(DIST) ;
@@ -399,12 +438,13 @@ SEXP covar_vector_interpol (
         SEXP NBR_INTERPOL  /* nbr. of interpolation points */ 
         )
 /* *****************************************************************************
- * The function 'int covar_vector_dir  (...)' calculates the Generalized Wendland
- * (GW) covariance matrix by modifying the R vector 'DIST'. The function
- * returns 0 if the calculation finished without erros.  Depending on the
- * parameters used the integral is calculated with the non-adaptive
- * Gauss-Kronrod algorithm using the 'GNU Scientific Library'. 
- * **************************************************************************/
+ * The function 'int covar_vector_interpol  (...)' calculates the Generalized
+ * Wendland (GW) covariance function for all values of the R  vector 'DIST'.
+ * If an error occures, the NULL pointer is returned.  The integral is
+ * calculated with the non-adaptive Gauss-Kronrod algorithm from the 'GNU
+ * Scientific Library'. This function uses interpolation in order to speed
+ * up the calculation.
+  * **************************************************************************/
 {
     /* local representation for the SEXPs */
     double* p_dist = REAL(DIST) ;

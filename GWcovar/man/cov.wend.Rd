@@ -7,13 +7,32 @@
 cov.wend(h, theta, abstol = 1e-05, reltol = 0.01,
   eps = getOption("spam.eps"))
 }
+\arguments{
+\item{h}{distance matrix}
+
+\item{theta}{parameter vector (only range range needs to be specified):
+theta[1]: range
+theta[2]: mu - kappa (default: 5)
+theta[3]: kappa (default: 1)
+theta[4]: sill (default: 1)
+theta[5]: nugget (default: 0)}
+
+\item{abstol}{absolute tolerance used for the calculation of the GW
+covariance function}
+
+\item{reltol}{relative tolerance used for the calculation of the GW
+covariance function}
+
+\item{eps}{treshhold below which values are considered to be equal to
+0}
+}
 \value{
 If the distance matrix is in standard R format a standard R matrix is
-returned. If the distance matrix is of class 'spam' the returned matrix is
-also of class 'spam'.
+returned. If the distance matrix is of class \linkS4class{spam} the returned matrix is
+also of class \linkS4class{spam}.
 }
 \description{
-The function 'cov.wend()' calculates the Generalized Wendland (GW)
+The function \code{cov.wend} calculates the Generalized Wendland (GW)
 covariance matrix based on a distance matrix.
 }
 \examples{
@@ -21,7 +40,4 @@ x <- seq(0,1,len=10)
 loc <- expand.grid(x,x) 
 dist.mat <- spam::nearest.dist(loc,upper=NULL,delta=0.5)
 cov.wend( dist.mat, c(0.3,6,1.5,1,0))
-}
-\seealso{
-[spam]
 }

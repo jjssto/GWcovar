@@ -27,35 +27,30 @@
 #include "stddef.h" /* for type size_t */
 
 
-/* ****************************************************************************
- * ** Errors ******************************************************************
- * ***************************************************************************/
-#define INVALID_ARG 50
-#define NULL_PTR 51
-
-
 
 /* ***************************************************************************
  * ** Public data structures *************************************************
  * **************************************************************************/
+
 typedef struct {
 /* ***************************************************************************
- * ...
+ * Struct used to return the value calculated by the function in wendland.c to
+ * the program that called the function.
  * **************************************************************************/
     double result ;
-    /* result of integration */
+    /* result of the numerical integration */
 
     double abserr ;
-    /* result of integration */
+    /* error of the numerical integration */
     
     size_t neval ;
-    /* number of integration */
+    /* number of evaluation for num. integration */
 
     int error ;
-    /* 0 if no error occured, otherwise GSL error code */
+    /* exit status of the GSL function used for numerical integration */
     
     int error_b ;
-    /* 0 if no error occured, otherwise GSL error code */
+    /* exit status of the GSL function used for the beta function */
 } Wendland_result ;
 
 
@@ -70,7 +65,13 @@ typedef struct {
 int 
 check_wendland_errors ( 
 /* ***************************************************************************
- * ...
+ * The function 'void check_wendland_errors(...)' checks if there has been an
+ * errror in the calculation done by a function from 'wendland.c'
+ *
+ * The function takes an argument 'result' of type 'Wendland_result' and
+ * returns '1' if both 'result.error' and 'result.error_b' are '0'. Otherwise
+ * it returns '0'. If there is an error, 'check_wendland_errors' also produces
+ * an error message using REprintf. 
  * **************************************************************************/
         Wendland_result* result 
         )  ;
@@ -79,9 +80,9 @@ check_wendland_errors (
 void 
 wendland(   
 /* ***************************************************************************
- * The function 'double wendland([...])' returns the value of the GW
+ * The function 'void wendland(...)' calculates the value of the GW
  * correlation function using non adaptive Gauss-Konrod integration. For the
- * integration the procedure 'int gsl_integration_qng([...])' from the 'GNU
+ * integration the procedure 'int gsl_integration_qng(...)' from the 'GNU
  * Scientific Library' is used.
  *
  *
@@ -89,22 +90,21 @@ wendland(
  * ****************
  * ** Arguments: ** 
  * ****************
+ *
+ *  ->  Wendland_result* result:    is used to return the resulting value to
+ *                          the function from where 'wendland(...)' was called
  * 
- *  ->  double dist:        distance between the two locations for 
- *                          which the GW covariance function is 
- *                          calculated
+ *  ->  double dist:        distance between the two locations for which the GW
+ *                          covariance function is calculated
  *
- *  ->  double mu:          parameter of the GW covariance 
- *                          function
+ *  ->  double mu:          parameter of the GW covariance function
  *
- *  ->  double smoothness:  smoothness parameter of the GW covariance
- *                          function
+ *  ->  double smoothness:  smoothness parameter of the GW covariance function
  *
- *  ->  double abstol:      absolute tolerance for the numerical 
- *                          integration
+ *  ->  double abstol:      absolute tolerance for the numerical integration
  *
- *  ->  double reltol:      relative tolerance for the numerical 
- *                          integration
+ *  ->  double reltol:      relative tolerance for the numerical integration
+ *
  *
  * ***************************************************************************/
         Wendland_result* result ,
@@ -119,9 +119,9 @@ wendland(
 void 
 wendland_qag (       
 /* ***************************************************************************
- * The function 'double wendland([...])' returns the value of the GW
+ * The function 'double wendland(...)' returns the value of the GW
  * correlation function using adaptive Gauss-Konrod integration. For the
- * integration the procedure 'int gsl_integration_qag([...])' from the 'GNU
+ * integration the procedure 'int gsl_integration_qag(...)' from the 'GNU
  * Scientific Library' is used.
  *
  *
@@ -130,6 +130,10 @@ wendland_qag (
  * **Arguments:** 
  * **************
  * 
+ * 
+ *  ->  Wendland_result* result:    is used to return the resulting value to
+ *                          the function from where 'wendland(...)' was called
+ *
  *  ->  double dist:        distance between the two locations for 
  *                          which the GW covariance function is 
  *                          calculated

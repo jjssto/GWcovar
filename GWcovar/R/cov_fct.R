@@ -17,28 +17,48 @@
 ##
 ########################################################################
 
-#' GWcovar provides functions to calculate the Generalized Wendland
+#' This package provides functions to calculate the Generalized Wendland
 #' covariance matrix
 #'
-#' The package GWcovar provides the two functions
-#' \code{\link{cov.wend()}} and \code{\link{cov.wend.interpol()}}
-#'
+#' The package rovides the two functions
+#' \code{\link{cov.wend}} and \code{\link{cov.wend.interpol}}.
+#' 
+#' @author Josef Stocker, \email{josef@@josefstocker.ch}
+#' @seealso \pkg{spam}
 #' @docType package
 #' @name GWcovar
-NULL
+#' @references \url{https://arxiv.org/abs/1607.06921}
+#'
+#' @import spam 
+#' @useDynLib covar, .registration = TRUE
 
 dyn.load('src/covar.so')
 
 
 #' Calculates the Generalized Wendland covariance matrix.
 #'
-#' The function 'cov.wend()' calculates the Generalized Wendland (GW)
+#' The function \code{cov.wend} calculates the Generalized Wendland (GW)
 #' covariance matrix based on a distance matrix. 
 #'
 #' @return If the distance matrix is in standard R format a standard R matrix is
-#' returned. If the distance matrix is of class 'spam' the returned matrix is
-#' also of class 'spam'.
-#' @seealso [spam]
+#' returned. If the distance matrix is of class \linkS4class{spam} the returned matrix is
+#' also of class \linkS4class{spam}.
+#' 
+#' @param h distance matrix
+#' @param theta parameter vector (only range range needs to be specified):
+#'     theta[1]: range
+#'     theta[2]: mu - kappa (default: 5)
+#'     theta[3]: kappa (default: 1)
+#'     theta[4]: sill (default: 1)
+#'     theta[5]: nugget (default: 0)
+#' @param abstol absolute tolerance used for the calculation of the GW
+#' covariance function
+#' @param reltol relative tolerance used for the calculation of the GW
+#' covariance function
+#' @param eps treshhold below which values are considered to be equal to
+#' 0
+#'
+#' @seealso \linkS4class{spam}}
 #' @export
 #' @examples
 #' x <- seq(0,1,len=10) 
@@ -120,15 +140,32 @@ cov.wend <- function(
 
 #' Calculates the Generalized Wendland covariance matrix.
 #'
-#' The function 'cov.wend.interpol()' calculates the Generalized
+#' The function \code{cov.wend.interpol} calculates the Generalized
 #' Wendland (GW) covariance matrix based on a distance matrix. In
-#' contrast to 'cov.wend()' this function uses interpolation in order to
+#' contrast to \code{\link{cov.wend}} this function uses interpolation in order to
 #' increase calculation speed.
 #'
 #' @return If the distance matrix is in standard R format a standard R matrix is
 #' returned. If the distance matrix is of class 'spam' the returned matrix is
-#' also of class 'spam'.
-#' @seealso [spam]
+#' also of class \linkS4class{spam}.
+#'
+#' @param h distance matrix
+#' @param theta parameter vector (only range range needs to be specified):
+#'     theta[1]: range
+#'     theta[2]: mu - kappa (default: 5)
+#'     theta[3]: kappa (default: 1)
+#'     theta[4]: sill (default: 1)
+#'     theta[5]: nugget (default: 0)
+#' @param abstol absolute tolerance used for the calculation of the GW
+#' covariance function
+#' @param reltol relative tolerance used for the calculation of the GW
+#' covariance function
+#' @param n_interpol number of equidistant locations where the GW
+#' covariance function is calculated 
+#' @param eps treshhold below which values are considered to be equal to
+#' 0
+#'
+#' @seealso \pkg{spam}
 #' @export
 #' @examples
 #' x <- seq(0,1,len=10) 
@@ -151,14 +188,14 @@ cov.wend.interpol <- function(
         	stop("Invalid arguments")
 		}
         theta[2] <- 5
-        theta[3] <- 1.0
+        theta[3] <- 1
         theta[4] <- 1.0
         theta[5] <- 0
     } else if (length(theta)==2) {
 		if ( (theta[1]<=0) || (theta[2]<=0) ) {
         	stop("Invalid arguments")
 		}
-        theta[3] <- 1.5
+        theta[3] <- 1
         theta[4] <- 1.0
         theta[5] <- 0
     } else	if(length(theta)==3) {

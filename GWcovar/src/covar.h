@@ -21,17 +21,6 @@
 
 
 /* ***************************************************************************
- * ** Errors *****************************************************************
- * **************************************************************************/
-
-#define INVALID_PARAMETERS 60
-#define METHOD_NOT_DEFINED 61
-#define WRONG_QAG_PARAMETERS 62
-#define WRONG_INTERPOL_PARAMETER 63
-#define INVALID_TOLERANCE 64
-
-
-/* ***************************************************************************
  * ** Includes  **************************************************************
  * **************************************************************************/
 
@@ -40,8 +29,14 @@
 
 
 /* ***************************************************************************
- * ** Functions  *************************************************************
+ * ** Public functions  ******************************************************
  * **************************************************************************/
+void 
+R_init_covar( 
+        DllInfo *info 
+        ) ;
+
+
 SEXP 
 covar_m_dist (  
 /* **************************************************************************** 
@@ -82,6 +77,12 @@ covar_m_dist (
  *  ->  SEXP NBR_INTERPOL:  Number of equidistant points in which the GW
  *                      covariance function is evaluated, if interpolation is
  *                      used.
+ *
+ *  ******************
+ *  ** Return value **
+ *  ******************
+ *  'SEXP covar_m_dist(...)' returns the covariance matrix. If an error
+ *  occures, 'NULL' is returned.
  *                          
  * ****************************************************************************/
         SEXP DIST ,      /* distance matrix */
@@ -136,6 +137,13 @@ covar_interpol (
  *                      covariance function is evaluated, if interpolation is
  *                      used.
  *
+ *
+ *  ******************
+ *  ** Return value **
+ *  ******************
+ *  'SEXP covar_interpol(...)' returns the covariance matrix. If an error
+ *  occures, 'NULL' is returned.
+ *
  * ****************************************************************************/
         SEXP DIST ,     /* distance matrix */
         SEXP MU ,       /* param. of GW correlation function */
@@ -153,10 +161,10 @@ covar_interpol (
 SEXP covar_vector_dir (
 /* ****************************************************************************
  * The function 'int covar_vector_dir  (...)' calculates the Generalized
- * Wendland (GW) covariance matrix by modifying the R vector 'DIST'. The
- * function returns 0 if the calculation finished without erros.  Depending on
- * the parameters used the integral is calculated with the non-adaptive
- * Gauss-Kronrod algorithm using the 'GNU Scientific Library'. 
+ * Wendland (GW) covariance function for all values of the R  vector 'DIST'.
+ * If an error occures, the NULL pointer is returned.  The integral is
+ * calculated with the non-adaptive Gauss-Kronrod algorithm from the 'GNU
+ * Scientific Library'. 
  *
  * 
  *  ****************
@@ -192,6 +200,15 @@ SEXP covar_vector_dir (
  *  -> SEXP EPS:        Treshold below which a number is considered to be equal
  *                      to zero.
  *
+ *
+ *
+ *  ******************
+ *  ** Return value **
+ *  ******************
+ *
+ *  'SEXP covar_vector_dir(...)' returns an R vector containing the covariance
+ *  values. If an error occures, 'NULL' is returned.
+ * 
  * ****************************************************************************/
         SEXP DIST ,         /* R vector containing distances */    
         SEXP LENGTH ,       /* length of 'SEXP DIST' */ 
@@ -207,11 +224,12 @@ SEXP covar_vector_dir (
 
 SEXP covar_vector_interpol (
 /* *****************************************************************************
- * The function 'int covar_vector_dir  (...)' calculates the Generalized Wendland
- * (GW) covariance matrix by modifying the R vector 'DIST'. The function
- * returns 0 if the calculation finished without erros.  Depending on the
- * parameters used the integral is calculated with the non-adaptive
- * Gauss-Kronrod algorithm using the 'GNU Scientific Library'. 
+ * The function 'int covar_vector_interpol  (...)' calculates the Generalized
+ * Wendland (GW) covariance function for all values of the R  vector 'DIST'.
+ * If an error occures, the NULL pointer is returned.  The integral is
+ * calculated with the non-adaptive Gauss-Kronrod algorithm from the 'GNU
+ * Scientific Library'. This function uses interpolation in order to speed
+ * up the calculation.
  *
  * 
  *  ****************
@@ -251,7 +269,13 @@ SEXP covar_vector_interpol (
  *  ->  SEXP NBR_INTERPOL:  Number of equidistant points in which the GW
  *                      covariance function is evaluated, if interpolation is
  *                      used.
- *
+ *  ******************
+ *  ** Return value **
+ *  ******************
+ *  
+ *  'SEXP covar_vector_dir(...)' returns an R vector containing the covariance
+ *  values. If an error occures, 'NULL' is returned.
+ * 
  * ****************************************************************************/
         SEXP DIST ,         /* R vector containing distances */    
         SEXP LENGTH ,       /* length of 'SEXP DIST' */ 

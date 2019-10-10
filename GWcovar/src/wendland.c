@@ -132,9 +132,9 @@ wendland (
         double abstol,      /*param. for integration*/
         double reltol       /*param. for integration*/
         ) 
-/* The function 'double wendland([...])' returns the value of the GW
+/* The function 'double wendland(...)' returns the value of the GW
  * correlation function using non adaptive Gauss-Konrod integration. For the
- * integration the procedure 'int gsl_integration_qng([...])' from the 'GNU
+ * integration the procedure 'int gsl_integration_qng(...)' from the 'GNU
  * Scientific Library' is used.
  * */
 {
@@ -202,9 +202,9 @@ wendland_qag (
         int intervals,      /*parameter for integration*/
         int key             /*parameter for integration*/
         ) 
-/* The function 'double wendland([...])' returns the value of the GW
+/* The function 'double wendland(...)' returns the value of the GW
  * correlation function using adaptive Gauss-Konrod integration. For the
- * integration the procedure 'int gsl_integration_qag([...])' from the 'GNU
+ * integration the procedure 'int gsl_integration_qag(...)' from the 'GNU
  * Scientific Library' is used.
  * */
 {

@@ -4,9 +4,18 @@
 \name{GWcovar}
 \alias{GWcovar}
 \alias{GWcovar-package}
-\title{GWcovar provides functions to calculate the Generalized Wendland
+\title{This package provides functions to calculate the Generalized Wendland
 covariance matrix}
 \description{
-The package GWcovar provides the two functions
-\code{\link{cov.wend()}} and \code{\link{cov.wend.interpol()}}
+The package rovides the two functions
+\code{\link{cov.wend}} and \code{\link{cov.wend.interpol}}.
+}
+\references{
+\url{https://arxiv.org/abs/1607.06921}
+}
+\seealso{
+\pkg{spam}
+}
+\author{
+Josef Stocker, \email{josef@josefstocker.ch}
 }

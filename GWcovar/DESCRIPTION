@@ -1,12 +1,16 @@
 Package: GWcovar
 Type: Package
-Title: Calculate the Generalized Wendland covariance function
-Version: 0.1
-Date: 2019-10-06
+Title: Calculation of the Generalized Wendland Covariance Matrix
+Version: 0.2
+Date: 2019-10-10
 Author: Josef Stocker
 Maintainer: Josef Stocker <josef@josefstocker.ch>
-Description: Calculate the Generalized Wendland covariance function
+Description: Two functions to calculate the GW covariance 
+    matrix. For the distance matrix eigher sparse matrices from the package 
+    'spam' or standard R matrices can be used.
 License: GPL-3
 Imports: spam
-Suggests: mvtnorm, foreach
+Suggests: mvtnorm
 RoxygenNote: 6.1.1
+NeedsCompilation: yes
+Packaged: 2019-10-10 10:09:11 UTC
